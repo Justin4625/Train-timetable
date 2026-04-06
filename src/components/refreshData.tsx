@@ -3,7 +3,11 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function RefreshData({ interval = 60000 }) {
+type RefreshDataProps = {
+    interval?: number;
+};
+
+export default function RefreshData({ interval = 60000 }: RefreshDataProps) {
     const router = useRouter();
 
     useEffect(() => {
