@@ -12,7 +12,7 @@ export async function getArrivals(stationCode: string): Promise<NSArrivalsRespon
         headers: {
             "Ocp-Apim-Subscription-Key": apiKey,
         },
-        cache: "no-store" // Zorg ervoor dat we altijd de meest recente gegevens krijgen
+        cache: "no-store"
     });
 
     if (!response.ok) {
@@ -25,7 +25,6 @@ export async function getArrivals(stationCode: string): Promise<NSArrivalsRespon
 
     const result = await response.json();
 
-    // NS API returns { payload: { arrivals: [...], messages: [...] } }
     return {
         arrivals: result.payload?.arrivals || result.arrivals || [],
         messages: result.payload?.messages || result.messages || []
