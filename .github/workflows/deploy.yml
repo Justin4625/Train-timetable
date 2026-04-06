@@ -35,7 +35,7 @@ jobs:
 
       - name: Build static export
         env:
-          NS_API_KEY: ${{ secrets.NS_API_KEY }}
+          NEXT_PUBLIC_NS_API_KEY: ${{ secrets.NEXT_PUBLIC_NS_API_KEY }}
         run: npm run build
 
       - name: Upload Pages artifact
