@@ -1,8 +1,8 @@
-name: Deploy Next.js site to Pages
+name: Deploy Next.js to GitHub Pages
 
 on:
   push:
-    branches: ["main"] # Verander naar "master" als dat je standaard branch is
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -21,19 +21,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # Pas dit aan naar jouw Node versie
-          cache: 'npm' # Gebruik 'yarn' of 'pnpm' als je dat gebruikt
+          node-version: 22
+          cache: npm
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
       - name: Install dependencies
-        run: npm ci # Gebruik 'yarn install' of 'pnpm install' indien van toepassing
+        run: npm ci
 
-      - name: Build with Next.js
+      - name: Build static export
+        env:
+          NS_API_KEY: ${{ secrets.NS_API_KEY }}
         run: npm run build
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
