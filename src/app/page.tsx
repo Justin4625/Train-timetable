@@ -2,6 +2,16 @@ import {getArrivals} from "@/lib/ns-api";
 import {NSArrival} from "@/types/ns";
 import RefreshData from "@/components/refreshData";
 
+const DUTCH_TIMEZONE = "Europe/Amsterdam";
+
+function formatDutchTime(date: Date): string {
+    return date.toLocaleTimeString("nl-NL", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: DUTCH_TIMEZONE,
+    });
+}
+
 export default async function Home() {
     let arrivals: NSArrival[];
     let error;
@@ -87,8 +97,8 @@ export default async function Home() {
                                 <div
                                     key={index}
                                     className={`p-5 border-l-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 flex justify-between items-center ${
-                                        train.cancelled 
-                                            ? 'border-red-500 bg-red-50' 
+                                        train.cancelled
+                                            ? 'border-red-500 bg-red-50'
                                             : 'border-blue-600 bg-white'
                                     }`}
                                 >
@@ -156,18 +166,18 @@ export default async function Home() {
                                         <div className={`font-mono text-2xl md:text-3xl font-bold ${
                                             train.cancelled ? 'line-through text-red-500' : 'text-blue-600'
                                         }`}>
-                                            {actualTime.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}
+                                            {formatDutchTime(actualTime)}
                                         </div>
                                         {!train.cancelled && delayMinutes > 0 && (
                                             <div className="text-sm text-gray-500 mt-1">
                                                 <span className="line-through">
-                                                    {plannedTime.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}
+                                                    {formatDutchTime(plannedTime)}
                                                 </span>
                                             </div>
                                         )}
                                         {!train.cancelled && delayMinutes === 0 && (
                                             <div className="text-xs text-gray-400 mt-1">
-                                                Gepland: {plannedTime.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}
+                                                Gepland: {formatDutchTime(plannedTime)}
                                             </div>
                                         )}
                                         {train.cancelled && (
