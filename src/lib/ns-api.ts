@@ -11,8 +11,7 @@ export async function getArrivals(stationCode: string): Promise<NSArrivalsRespon
     const response = await fetch(`${NS_ENDPOINT}?station=${stationCode}`, {
         headers: {
             "Ocp-Apim-Subscription-Key": apiKey,
-        },
-        cache: "no-store"
+        }
     });
 
     if (!response.ok) {
